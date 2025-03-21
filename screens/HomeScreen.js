@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView,
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 const API_KEY = '8b2a37cbf269a57286a4df8eb388260b';
 const WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather';
@@ -62,13 +63,17 @@ const HomeScreen = () => {
 
       {loading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#007BFF" />
+          <LottieView source={require('../assets/weather.json')} autoPlay loop style={styles.loadingAnimation} />
         </View>
       )}
       {error && <Text style={styles.error}>{error}</Text>}
 
       {weatherData && (
         <View style={styles.contentContainer}>
+          <View style={styles.lottieContainer}>
+            <LottieView source={require('../assets/weather.json')} autoPlay loop style={styles.lottieImage} />
+          </View>
+
           <View style={styles.weatherCard}>
             <Text style={styles.city}>{weatherData.name}, {weatherData.sys.country}</Text>
             <Text style={styles.temperature}>{Math.round(weatherData.main.temp)}°C</Text>
@@ -147,6 +152,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  lottieContainer: {
+    width: '80%',
+    aspectRatio: 1,
+    marginBottom: 10,
+  },
+  lottieImage: {
+    width: '100%',
+    height: '100%',
+  },
   weatherCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 15,
@@ -203,6 +217,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+  },
+  loadingAnimation: {
+    width: 100,
+    height: 100,
   },
 });
 
